@@ -1,0 +1,10 @@
+# globa library
+from pandas import read_csv, DataFrame, to_datetime
+import matplotlib.pyplot as plt
+from statsmodels.tsa.stattools import adfuller
+# Dataframe
+df_datagen = read_csv('../DataGeneración_filo.csv')
+df_semestre = df_datagen.loc[(df_datagen['Fecha'] >= '2021-01-01') & (df_datagen['Fecha'] < '2021-06-30')]
+df_semestre.index = to_datetime(df_semestre['Fecha'])
+del df_semestre['Fecha']
+print(df_semestre.head())
