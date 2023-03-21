@@ -1,1 +1,35 @@
-
+# globa library
+from pandas import read_csv, DataFrame, to_datetime
+import matplotlib.pyplot as plt
+from statsmodels.tsa.stattools import adfuller
+# Dataframe
+df_datagen = read_csv('../DataGeneración_filo.csv')
+df_semestre1 = df_datagen.loc[(df_datagen['Fecha'] >= '2021-01-01') & (df_datagen['Fecha'] < '2021-06-30')]
+df_semestre1.index = to_datetime(df_semestre1['Fecha'])
+del df_semestre1['Fecha'] 
+print(df_semestre|.head()
+df_semestre|.plot()   
+df_semestre1_day = df_semestre1.resample("d").mean() 
+df_semestre1_day.plot() 
+# semestre
+rolling_mean_6m = df_semestre1_day.rolling(7).mean()
+rolling_std_6m = df_semestre1_day.rolling(7).std()                                                                                             
+plt.plot(df_semestre1_day, color="blue",label="Original kWh Data")
+plt.plot(rolling_mean_6m, color="red", label="Rolling Mean kWh Number")
+plt.plot(rolling_std_6m, color="black", label = "Rolling Standard Deviation in Passenger Number")
+plt.title("kWh Time Series, Rolling Mean, Standard Deviation semestre")
+plt.legend(loc="best") 
+adft_6 = adfuller(df_semestre1_day,autolag="AIC") 
+output_df_6 = DataFrame(
+        {"Values":[
+            adft_6[0],adft_6[1],adft_6[2],adft_6[3], adft_6[4]['1%'], adft_6[4]['5%'], adft_6[4]['10%']
+            ], 
+        "Metric":["Test Statistics","p-value","No. of lags used",
+        "Number of observations used", 
+        "critical value (1%)", "critical value (5%)", "critical value (10%)"]
+        }
+    )  
+display(output_df_6)    
+autocorrelation_lag1_6 = df_semestre1_day['kWh'].autocorr(lag=6)
+print("Six Month Lag: ", autocorrelation_lag1_6) 
+                                                                                               
